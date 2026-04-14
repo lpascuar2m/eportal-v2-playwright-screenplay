@@ -1,6 +1,4 @@
-import { test, expect } from "@playwright/test";
-import { Actor } from "@testla/screenplay-playwright";
-import { BrowseTheWeb } from "@testla/screenplay-playwright/web";
+import { test, expect } from "../../../../src/fixtures/actors.fixture";
 import { SignIn, SignOut } from "../../../../src/screenplay/tasks";
 import { IsAuthenticated } from "../../../../src/screenplay/questions";
 import { AdminUserCredentials } from "../../../../src/data/test-data/users";
@@ -11,13 +9,8 @@ test.describe("EportalV2 Prod Issues", { tag: ["@prodIssues"] }, () => {
    * Issue: User should be signed in when pressing the Enter key on the keyboard.
    */
   test.describe("Defect #1958", { tag: ["@defect#1958"] }, () => {
-    let Admin: Actor;
 
-    test.beforeEach(async ({ page }) => {
-      Admin = Actor.named("Admin").can(BrowseTheWeb.using(page));
-    });
-
-    test.afterEach(async () => {
+    test.afterEach(async ({ Admin }) => {
       await Admin.attemptsTo(SignOut.fromTheApp());
     });
 
@@ -28,7 +21,7 @@ test.describe("EportalV2 Prod Issues", { tag: ["@prodIssues"] }, () => {
     test(
       "should sign in successfully when pressing Enter key",
       { tag: ["@sanity", "@keyboard-accessibility", "@authentication"] },
-      async () => {
+      async ({ Admin }) => {
         await test.step("Sign in using valid credentials and press Enter", async () => {
           await Admin.attemptsTo(
             SignIn.byPressingEnter().usingCredentials(
