@@ -1,7 +1,7 @@
 import { Actor, Task } from '@testla/screenplay-playwright'
 import { Navigate, Fill, Click, Wait } from '@testla/screenplay-playwright/web'
 import { LoginScreen } from '../screens/login.screen'
-import { QA_ENV } from '../../data/environments';
+import { UatConfig } from "../../data/configs/environments";
 
 export class SignIn extends Task {
     private readonly email: string;
@@ -23,7 +23,7 @@ export class SignIn extends Task {
 
     async performAs(actor: Actor): Promise<void> {
         await actor.attemptsTo(
-            Navigate.to(QA_ENV.baseUrl),
+            Navigate.to(UatConfig.baseUrl),
             Wait.forLoadState('domcontentloaded'),
             Fill.in(LoginScreen.fields.email, this.email),
             Fill.in(LoginScreen.fields.password, this.password),

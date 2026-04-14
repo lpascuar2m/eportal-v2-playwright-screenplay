@@ -1,4 +1,4 @@
-export class QA_ENV {
+export class UatConfig {
   static get baseUrl(): string {
     const url = process.env.UAT_EPORTAL_BASE_URL;
     if (!url) {

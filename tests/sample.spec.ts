@@ -1,10 +1,8 @@
 import { test } from "@playwright/test";
 import { Actor } from "@testla/screenplay-playwright";
-import { SignIn } from "../screenplay/tasks";
-import { ActorBuilder } from "../screenplay/actors";
-import { SignOut } from "../screenplay/tasks";
-import { EndSession } from "../screenplay/tasks";
-import { SignInData } from "../data/credentials";
+import { SignIn, SignOut, EndSession } from "../src/screenplay/tasks";
+import { ActorBuilder } from "../src/screenplay/actors";
+import { StandardUserCredentials } from "../src/data/test-data/users";
 
 let Andy: Actor;
 
@@ -21,8 +19,8 @@ test.describe("Login Suite", () => {
   test("should be able to sign in", async () => {
     await Andy.attemptsTo(
       SignIn.toTheAppWithCredentials(
-        SignInData.validUser.email,
-        SignInData.validUser.password
+        StandardUserCredentials.validUser.email,
+        StandardUserCredentials.validUser.password
       ),
     );
   });
