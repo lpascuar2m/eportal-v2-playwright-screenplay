@@ -13,7 +13,7 @@ export class SignOut extends Task {
 
     async performAs(actor: Actor): Promise<void> {
         await actor.attemptsTo(
-            Click.on(DashboardScreen.buttons.signOutButton)
+            Click.on(DashboardScreen.signOutButton())
         );
     }
 }
