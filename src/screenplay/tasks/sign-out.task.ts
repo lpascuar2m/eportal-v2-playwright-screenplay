@@ -1,5 +1,5 @@
 import { Actor, Task } from '@testla/screenplay-playwright';
-import { Click } from '@testla/screenplay-playwright/web';
+import { Click, Wait } from '@testla/screenplay-playwright/web';
 import { DashboardScreen } from '../screens/dashboard.screen';
 
 export class SignOut extends Task {
@@ -13,7 +13,9 @@ export class SignOut extends Task {
 
     async performAs(actor: Actor): Promise<void> {
         await actor.attemptsTo(
-            Click.on(DashboardScreen.signOutButton())
+            Wait.forSelector(DashboardScreen.signOutButton(), { state: 'visible' }),
+            Click.on(DashboardScreen.signOutButton()),
+            Wait.forLoadState('networkidle')
         );
     }
 }
