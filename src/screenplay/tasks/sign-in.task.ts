@@ -37,7 +37,7 @@ export class SignIn extends Task {
         }
 
         await actor.attemptsTo(
-            Navigate.to(UatConfig.baseUrl),
+            Navigate.to(UatConfig.loginPageUrl),
             Wait.forLoadState('domcontentloaded'),
             Fill.in(LoginScreen.emailField(), this.email),
             Fill.in(LoginScreen.passwordField(), this.password),
