@@ -8,14 +8,20 @@ type ActorFixtures = {
 };
 
 export const test = base.extend<ActorFixtures>({
-  Admin: async ({ page }, use) => {
+  Admin: async ({ browser }, use) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
     const actor = Actor.named('Admin').can(BrowseTheWeb.using(page));
     await use(actor);
+    await context.close();
   },
   
-  Employee: async ({ page }, use) => {
+  Employee: async ({ browser }, use) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
     const actor = Actor.named('StandardUser').can(BrowseTheWeb.using(page));
     await use(actor);
+    await context.close();
   },
 });
 
