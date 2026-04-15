@@ -1,5 +1,5 @@
 import { Actor, Question } from '@testla/screenplay-playwright';
-import { Element } from '@testla/screenplay-playwright/web';
+import { BrowseTheWeb } from '@testla/screenplay-playwright/web';
 import { DashboardScreen } from '../screens/dashboard.screen';
 
 export class IsAuthenticated extends Question<boolean> {
@@ -12,8 +12,11 @@ export class IsAuthenticated extends Question<boolean> {
     }
 
     async answeredBy(actor: Actor): Promise<boolean> {
-        return await actor.asks(
-            Element.toBe.visible(DashboardScreen.dashboardHeader())
+        const locator = await BrowseTheWeb.as(actor).resolveSelectorToLocator(
+            DashboardScreen.dashboardHeader(),
+            { evaluateVisible: false }
         );
+
+        return await locator.isVisible();
     }
 }

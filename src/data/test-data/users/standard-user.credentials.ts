@@ -1,16 +1,19 @@
-function requiredEnv(name: string): string {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`${name} environment variable is not configured`);
+function requiredEnvFrom(...names: string[]): string {
+  for (const name of names) {
+    const value = process.env[name];
+    if (value) {
+      return value;
+    }
   }
-  return value;
+
+  throw new Error(`${names.join(' or ')} environment variable is not configured`);
 }
 
 export class StandardUserCredentials {
   static get valid() {
     return {
-      email: requiredEnv('UAT_EPORTAL_STANDARD_EMAIL'),
-      password: requiredEnv('UAT_EPORTAL_STANDARD_PASSWORD'),
+      email: requiredEnvFrom('UAT_EPORTAL_STANDARD_EMAIL', 'UAT_EPORTAL_EMPLOYEE_EMAIL'),
+      password: requiredEnvFrom('UAT_EPORTAL_STANDARD_PASSWORD', 'UAT_EPORTAL_EMPLOYEE_PASSWORD'),
     };
   }
 }
