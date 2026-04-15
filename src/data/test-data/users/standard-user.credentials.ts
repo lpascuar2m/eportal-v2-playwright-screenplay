@@ -1,6 +1,16 @@
+function requiredEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`${name} environment variable is not configured`);
+  }
+  return value;
+}
+
 export class StandardUserCredentials {
-    static readonly valid = {
-        email: process.env.UAT_EPORTAL_EMPLOYEE_EMAIL!,
-        password: process.env.UAT_EPORTAL_EMPLOYEE_PASSWORD!,
+  static get valid() {
+    return {
+      email: requiredEnv('UAT_EPORTAL_STANDARD_EMAIL'),
+      password: requiredEnv('UAT_EPORTAL_STANDARD_PASSWORD'),
     };
+  }
 }

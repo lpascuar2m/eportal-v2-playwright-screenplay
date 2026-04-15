@@ -12,6 +12,6 @@ export class LoginScreen {
     }
 
     static signInButton(): LazySelector {
-        return (page) => page.getByText("Sign in", { exact: true });
+        return (page) => page.getByRole("button", { name: "Sign in" });
     }
 }
