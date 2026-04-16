@@ -4,7 +4,7 @@ type LazySelector = (page: Page | FrameLocator) => Locator;
 
 export class DashboardScreen {
     static signOutButton(): LazySelector {
-        return (page) => page.locator('a').filter({ hasText: 'LOG OUT' });
+        return (page) => page.getByText("LOG OUT"); 
     }
 
     static dashboardHeader(): LazySelector {

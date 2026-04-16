@@ -1,5 +1,6 @@
 import { Actor, Task } from '@testla/screenplay-playwright'
-import { Navigate, Fill, Click, Wait, Press } from '@testla/screenplay-playwright/web'
+import { Navigate, Fill, Click, Wait } from '@testla/screenplay-playwright/web'
+import { BrowseTheWeb } from '@testla/screenplay-playwright/web'
 import { LoginScreen } from '../screens/login.screen'
 import { UatConfig } from "../../data/configs/environments";
 
@@ -40,10 +41,15 @@ export class SignIn extends Task {
             Navigate.to(UatConfig.loginPageUrl),
             Wait.forLoadState('domcontentloaded'),
             Fill.in(LoginScreen.emailField(), this.email),
-            Fill.in(LoginScreen.passwordField(), this.password),
-            this.submitMethod === 'click' 
-                ? Click.on(LoginScreen.signInButton())
-                : Press.key('Enter')
-        )
+            Fill.in(LoginScreen.passwordField(), this.password)
+        );
+
+        if (this.submitMethod === 'click') {
+            await actor.attemptsTo(Click.on(LoginScreen.signInButton()));
+        } else {
+            const page = BrowseTheWeb.as(actor).getPage();
+            const passwordLocator = LoginScreen.passwordField()(page);
+            await passwordLocator.press('Enter');
+        }
     }
 }

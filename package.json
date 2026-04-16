@@ -3,7 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
+    "test:grep": "npx playwright test --grep",
+    "test:headed": "npx playwright test --headed",
+    "test:debug": "npx playwright test --debug",
+    "show-report": "npx playwright show-report",
+    "codegen": "npx playwright codegen"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

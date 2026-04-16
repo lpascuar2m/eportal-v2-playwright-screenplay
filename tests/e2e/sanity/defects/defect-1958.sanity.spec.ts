@@ -1,3 +1,4 @@
+import { Actor } from '@testla/screenplay-playwright';
 import { test, expect } from '../../../../src/fixtures/actors.fixture';
 import { SignIn, SignOut } from '../../../../src/screenplay/tasks';
 import { IsAuthenticated } from '../../../../src/screenplay/questions';
@@ -10,8 +11,7 @@ test.describe('EportalV2 Prod Issues', { tag: ['@prodIssues'] }, () => {
    */
   test.describe('Defect #1958', { tag: ['@defect#1958'] }, () => {
     test.afterEach(async ({ Admin }) => {
-      const isAuthenticated = await Admin.asks(IsAuthenticated.successfully());
-      if (isAuthenticated) {
+      if (await isAuthenticated(Admin)) {
         await Admin.attemptsTo(SignOut.fromTheApp());
       }
     });
@@ -34,10 +34,13 @@ test.describe('EportalV2 Prod Issues', { tag: ['@prodIssues'] }, () => {
         });
 
         await test.step('Verify successful authentication', async () => {
-          const isAuthenticated = await Admin.asks(IsAuthenticated.successfully());
-          expect(isAuthenticated).toBe(true);
+          expect(await isAuthenticated(Admin)).toBe(true);
         });
       },
     );
   });
-});
+}); 
+
+async function isAuthenticated(actor: Actor): Promise<boolean> {
+  return await actor.asks(IsAuthenticated.successfully());
+}
